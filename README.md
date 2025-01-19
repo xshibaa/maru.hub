@@ -1,2 +1,2 @@
-# maru.hub
+# MaruBitkub
 Real
