@@ -1,0 +1,3 @@
+getgenv().Key = "MARU-6LTZ-H0AW-H7NM-RZB4-7U5UZ"
+getgenv().id = "846415181753625792"
+loadstring(game:HttpGet("https://raw.githubusercontent.com/xshibaa/maru.hub/main/Mobile.lua"))()
