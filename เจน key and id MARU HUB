@@ -1,0 +1,254 @@
+-- สร้าง ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MainScreenGui"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- สร้าง Frame หลัก
+local mainFrame = Instance.new("Frame")
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0.5, 0, 0.6, 0)  -- ขนาด 50% กว้าง และ 60% สูง
+mainFrame.Position = UDim2.new(0.25, 0, 0.2, 0)  -- ตั้งอยู่กลางหน้าจอ
+mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+mainFrame.Parent = screenGui
+
+-- เพิ่มมุมกลมให้กับ Frame
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 20)  -- ตั้งค่ามุมกลม
+uiCorner.Parent = mainFrame
+
+-- เพิ่มพื้นหลังวงกลม
+local backgroundImage = Instance.new("ImageLabel")
+backgroundImage.Size = UDim2.new(1, 0, 1, 0)  -- ให้ครอบคลุมทั้ง Frame
+backgroundImage.BackgroundTransparency = 1  -- ทำให้พื้นหลังโปร่งใส
+backgroundImage.Image = "rbxassetid://PLACE_YOUR_IMAGE_ID_HERE"  -- ใส่ ID รูปภาพของคุณ
+backgroundImage.ZIndex = 0  -- วางไว้ใต้ Frame
+backgroundImage.Parent = mainFrame
+
+-- เพิ่ม Tab ปุ่ม
+local tab1Button = Instance.new("TextButton")
+tab1Button.Size = UDim2.new(0.3, 0, 0.1, 0)
+tab1Button.Position = UDim2.new(0.05, 0, 0.05, 0)
+tab1Button.Text = "Code"
+tab1Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+tab1Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+tab1Button.Parent = mainFrame
+
+local tab2Button = Instance.new("TextButton")
+tab2Button.Size = UDim2.new(0.3, 0, 0.1, 0)
+tab2Button.Position = UDim2.new(0.35, 0, 0.05, 0)
+tab2Button.Text = "ID"
+tab2Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+tab2Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+tab2Button.Parent = mainFrame
+
+local tab3Button = Instance.new("TextButton")
+tab3Button.Size = UDim2.new(0.3, 0, 0.1, 0)
+tab3Button.Position = UDim2.new(0.65, 0, 0.05, 0)
+tab3Button.Text = "Script"
+tab3Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+tab3Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+tab3Button.Parent = mainFrame
+
+-- สร้าง Tab Frames
+local tab1Frame = Instance.new("Frame")
+tab1Frame.Name = "Tab1Frame"
+tab1Frame.Size = UDim2.new(1, 0, 0.7, 0)
+tab1Frame.Position = UDim2.new(0, 0, 0.2, 0)
+tab1Frame.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+tab1Frame.Visible = true
+tab1Frame.Parent = mainFrame
+
+local tab2Frame = Instance.new("Frame")
+tab2Frame.Name = "Tab2Frame"
+tab2Frame.Size = UDim2.new(1, 0, 0.7, 0)
+tab2Frame.Position = UDim2.new(0, 0, 0.2, 0)
+tab2Frame.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+tab2Frame.Visible = false
+tab2Frame.Parent = mainFrame
+
+local tab3Frame = Instance.new("Frame")
+tab3Frame.Name = "Tab3Frame"
+tab3Frame.Size = UDim2.new(1, 0, 0.7, 0)
+tab3Frame.Position = UDim2.new(0, 0, 0.2, 0)
+tab3Frame.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+tab3Frame.Visible = false
+tab3Frame.Parent = mainFrame
+
+-- ฟังก์ชันสำหรับแสดง Tab ที่เลือก
+local function showTab(tab)
+    tab1Frame.Visible = (tab == 1)
+    tab2Frame.Visible = (tab == 2)
+    tab3Frame.Visible = (tab == 3)
+end
+
+-- ฟังก์ชันสุ่มโค้ด
+local function generateRandomCode()
+    local prefix = "MARU"
+    local segments = {}
+    for i = 1, 5 do
+        local length = math.random(4, 5)
+        local segment = ""
+        for j = 1, length do
+            local charType = math.random(1, 2)
+            if charType == 1 then
+                segment = segment .. tostring(math.random(0, 9))
+            else
+                segment = segment .. string.char(math.random(65, 90))
+            end
+        end
+        table.insert(segments, segment)
+    end
+    return prefix .. "-" .. table.concat(segments, "-")
+end
+
+-- ฟังก์ชันสุ่ม ID (18 หลัก)
+local function generateRandomID()
+    local id = ""
+    for i = 1, 18 do
+        id = id .. tostring(math.random(0, 9))
+    end
+    return id
+end
+
+-- ฟังก์ชัน SetClipboard สำหรับคัดลอก
+local function setClipboard(text)
+    setclipboard(text)
+end
+
+-- การทำงานของปุ่มแต่ละอัน
+tab1Button.MouseButton1Click:Connect(function()
+    showTab(1)
+end)
+
+tab2Button.MouseButton1Click:Connect(function()
+    showTab(2)
+end)
+
+tab3Button.MouseButton1Click:Connect(function()
+    showTab(3)
+end)
+
+-- การสุ่มโค้ด
+local randomCodeButton = Instance.new("TextButton")
+randomCodeButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+randomCodeButton.Position = UDim2.new(0.05, 0, 0.2, 0)
+randomCodeButton.Text = "Generate Code"
+randomCodeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+randomCodeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+randomCodeButton.Parent = tab1Frame
+
+local codeFrame = Instance.new("Frame")
+codeFrame.Size = UDim2.new(0.9, 0, 0.1, 0)
+codeFrame.Position = UDim2.new(0.05, 0, 0.4, 0)
+codeFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+codeFrame.Parent = tab1Frame
+
+local codeLabel = Instance.new("TextLabel")
+codeLabel.Size = UDim2.new(1, 0, 1, 0)
+codeLabel.Position = UDim2.new(0, 0, 0, 0)
+codeLabel.Text = "Your Code will appear here"
+codeLabel.BackgroundTransparency = 1
+codeLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+codeLabel.Parent = codeFrame
+
+-- ปุ่มคัดลอกโค้ด
+local copyCodeButton = Instance.new("TextButton")
+copyCodeButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+copyCodeButton.Position = UDim2.new(0.35, 0, 0.55, 0)
+copyCodeButton.Text = "Copy Code"
+copyCodeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+copyCodeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyCodeButton.Parent = tab1Frame
+
+randomCodeButton.MouseButton1Click:Connect(function()
+    local code = generateRandomCode()
+    codeLabel.Text = code
+end)
+
+copyCodeButton.MouseButton1Click:Connect(function()
+    setClipboard(codeLabel.Text)
+end)
+
+-- การสุ่ม ID
+local randomIDButton = Instance.new("TextButton")
+randomIDButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+randomIDButton.Position = UDim2.new(0.05, 0, 0.2, 0)
+randomIDButton.Text = "Generate ID"
+randomIDButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+randomIDButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+randomIDButton.Parent = tab2Frame
+
+local idFrame = Instance.new("Frame")
+idFrame.Size = UDim2.new(0.9, 0, 0.1, 0)
+idFrame.Position = UDim2.new(0.05, 0, 0.4, 0)
+idFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+idFrame.Parent = tab2Frame
+
+local idLabel = Instance.new("TextLabel")
+idLabel.Size = UDim2.new(1, 0, 1, 0)
+idLabel.Position = UDim2.new(0, 0, 0, 0)
+idLabel.Text = "Your ID will appear here"
+idLabel.BackgroundTransparency = 1
+idLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+idLabel.Parent = idFrame
+
+-- ปุ่มคัดลอก ID
+local copyIDButton = Instance.new("TextButton")
+copyIDButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+copyIDButton.Position = UDim2.new(0.35, 0, 0.55, 0)
+copyIDButton.Text = "Copy ID"
+copyIDButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+copyIDButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyIDButton.Parent = tab2Frame
+
+randomIDButton.MouseButton1Click:Connect(function()
+    local id = generateRandomID()
+    idLabel.Text = id
+end)
+
+copyIDButton.MouseButton1Click:Connect(function()
+    setClipboard(idLabel.Text)
+end)
+
+-- การสร้าง Script
+local generateScriptButton = Instance.new("TextButton")
+generateScriptButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+generateScriptButton.Position = UDim2.new(0.05, 0, 0.2, 0)
+generateScriptButton.Text = "Generate Script"
+generateScriptButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+generateScriptButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+generateScriptButton.Parent = tab3Frame
+
+local scriptFrame = Instance.new("Frame")
+scriptFrame.Size = UDim2.new(0.9, 0, 0.1, 0)
+scriptFrame.Position = UDim2.new(0.05, 0, 0.4, 0)
+scriptFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+scriptFrame.Parent = tab3Frame
+
+local scriptLabel = Instance.new("TextLabel")
+scriptLabel.Size = UDim2.new(1, 0, 1, 0)
+scriptLabel.Position = UDim2.new(0, 0, 0, 0)
+scriptLabel.Text = "Script will appear here"
+scriptLabel.BackgroundTransparency = 1
+scriptLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+scriptLabel.Parent = scriptFrame
+
+-- ปุ่มคัดลอก Script
+local copyScriptButton = Instance.new("TextButton")
+copyScriptButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+copyScriptButton.Position = UDim2.new(0.35, 0, 0.55, 0)
+copyScriptButton.Text = "Copy Script"
+copyScriptButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+copyScriptButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+copyScriptButton.Parent = tab3Frame
+
+generateScriptButton.MouseButton1Click:Connect(function()
+    scriptLabel.Text = 'getgenv().Key = "' .. generateRandomCode() .. '"\ngetgenv().id = "' .. generateRandomID() .. '"\nloadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()'
+end)
+
+copyScriptButton.MouseButton1Click:Connect(function()
+    setClipboard(scriptLabel.Text)
+end)
+
+-- เริ่มต้นแสดง Tab1
+showTab(1)
